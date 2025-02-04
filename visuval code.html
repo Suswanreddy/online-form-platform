@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Online Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #c2d1e2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            text-align: left;
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #e62626;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #e02727;
+        }
+        .form-image {
+            width: 100px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <img src="form-image.png" alt="Form Illustration" class="form-image">
+        <h1>Pentagon Data Collection Form</h1>
+        <form id="data-collection-form">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" placeholder="Enter your age" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="">Select your gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="experience">Experience (Years):</label>
+            <input type="number" id="experience" name="experience" placeholder="Enter your experience in years" required>
+
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" placeholder="Enter your country" required>
+
+            <label for="hobbies">Hobbies:</label>
+            <textarea id="hobbies" name="hobbies" placeholder="List your hobbies..." required></textarea>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+            
+            <label for="file-upload">Upload File (PDF, DOC, TXT):</label>
+            <input type="file" id="file-upload" name="file-upload" accept=".pdf, .doc, .docx, .txt" required>
+
+            <button type="submit">Submit</button>
+        </form>
+        <div id="response-message"></div>
+    </div>
+
+    <script>
+        document.getElementById("data-collection-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this); // Get form data
+    
+            try {
+                const response = await fetch("http://localhost:5000/submit-form", {
+                    method: "POST",
+                    body: formData, // Send data to backend
+                });
+    
+                const result = await response.json();
+                document.getElementById("response-message").innerText = result.message;
+                console.log("Server Response:", result);
+    
+            } catch (error) {
+                document.getElementById("response-message").innerText = "Error submitting form.";
+                console.error("Error:", error);
+            }
+        });
+    </script>
+    
+</body>
+</html>
