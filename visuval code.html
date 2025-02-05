@@ -109,12 +109,12 @@
         document.getElementById("data-collection-form").addEventListener("submit", async function(event) {
             event.preventDefault();
             
-            const formData = new FormData(this); // Get form data
+            const formData = new FormData(this);
     
             try {
                 const response = await fetch("http://localhost:5000/submit-form", {
                     method: "POST",
-                    body: formData, // Send data to backend
+                    body: formData, 
                 });
     
                 const result = await response.json();
